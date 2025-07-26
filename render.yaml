@@ -6,6 +6,7 @@ services:
     dockerfilePath: ./Dockerfile
     plan: starter
     healthCheckPath: /
+    rootDir: pdf-downloader-backend
     envVars:
       - key: PORT
         value: 5000
