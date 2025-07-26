@@ -263,6 +263,9 @@
         const downloadBtn = document.getElementById(\'downloadBtn\');
         const status = document.getElementById(\'status\');
 
+        // URL do backend - substitua pela URL do seu backend no Render
+        const BACKEND_URL = \'https://pdf-downloader-production.onrender.com\';
+
         function showStatus(message, type) {
             status.className = `status ${type}`;
             status.style.display = \'block\';
@@ -296,7 +299,7 @@
             showStatus(\'Processando download... Isso pode levar alguns minutos.\', \'loading\');
 
             try {
-                const response = await fetch(\'/api/download\', {
+                const response = await fetch(`${BACKEND_URL}/api/download`, {
                     method: \'POST\',
                     headers: {
                         \'Content-Type\': \'application/json\',
