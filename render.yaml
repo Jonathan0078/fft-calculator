@@ -3,7 +3,6 @@ services:
   - type: web
     name: pdf-downloader-production
     env: docker
-    dockerfilePath: ./Dockerfile
     plan: starter
     healthCheckPath: /
     rootDir: pdf-downloader-backend
