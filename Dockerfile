@@ -1,3 +1,4 @@
+
 FROM python:3.11-slim
 
 # Instalar dependências do sistema necessárias para o Playwright
@@ -28,8 +29,8 @@ RUN apt-get update && apt-get install -y \
 # Definir diretório de trabalho
 WORKDIR /app
 
-# Copiar requirements.txt do diretório do backend
-COPY pdf-downloader-backend/requirements.txt .
+# Copiar requirements.txt (agora está na raiz do contexto)
+COPY requirements.txt .
 
 # Instalar dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
@@ -38,11 +39,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN playwright install chromium
 RUN playwright install-deps
 
-# Copiar todo o conteúdo do repositório para o diretório de trabalho
+# Copiar todo o conteúdo do backend
 COPY . .
 
 # Expor porta
 EXPOSE 5000
 
-# Comando para iniciar a aplicação Flask
-CMD ["python", "pdf-downloader-backend/src/main.py"]
+# Comando para iniciar a aplicação Flask com gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "src.main:app"]
