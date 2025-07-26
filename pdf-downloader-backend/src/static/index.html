@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: \'Segoe UI\', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
@@ -259,15 +259,15 @@
     </div>
 
     <script>
-        const form = document.getElementById('downloadForm');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const status = document.getElementById('status');
+        const form = document.getElementById(\'downloadForm\');
+        const downloadBtn = document.getElementById(\'downloadBtn\');
+        const status = document.getElementById(\'status\');
 
         function showStatus(message, type) {
             status.className = `status ${type}`;
-            status.style.display = 'block';
+            status.style.display = \'block\';
             
-            if (type === 'loading') {
+            if (type === \'loading\') {
                 status.innerHTML = `<span class="loading-spinner"></span>${message}`;
             } else {
                 status.innerHTML = message;
@@ -275,31 +275,31 @@
         }
 
         function hideStatus() {
-            status.style.display = 'none';
+            status.style.display = \'none\';
         }
 
-        form.addEventListener('submit', async (e) => {
+        form.addEventListener(\'submit\', async (e) => {
             e.preventDefault();
             
             const formData = new FormData(form);
-            const url = formData.get('url');
-            const type = formData.get('type');
+            const url = formData.get(\'url\');
+            const type = formData.get(\'type\');
 
             // Validação básica
-            if (!url || !url.includes('scribd.com')) {
-                showStatus('Por favor, insira uma URL válida do Scribd.', 'error');
+            if (!url || !url.includes(\'scribd.com\')) {
+                showStatus(\'Por favor, insira uma URL válida do Scribd.\', \'error\');
                 return;
             }
 
             // Desabilitar botão e mostrar loading
             downloadBtn.disabled = true;
-            showStatus('Processando download... Isso pode levar alguns minutos.', 'loading');
+            showStatus(\'Processando download... Isso pode levar alguns minutos.\', \'loading\');
 
             try {
-                const response = await fetch('/api/download', {
-                    method: 'POST',
+                const response = await fetch(\'/api/download\', {
+                    method: \'POST\',
                     headers: {
-                        'Content-Type': 'application/json',
+                        \'Content-Type\': \'application/json\',
                     },
                     body: JSON.stringify({
                         url: url,
@@ -311,7 +311,7 @@
                     // Criar link para download
                     const blob = await response.blob();
                     const downloadUrl = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
+                    const a = document.createElement(\'a\');
                     a.href = downloadUrl;
                     a.download = `scribd-document-${Date.now()}.pdf`;
                     document.body.appendChild(a);
@@ -319,21 +319,20 @@
                     document.body.removeChild(a);
                     window.URL.revokeObjectURL(downloadUrl);
 
-                    showStatus('✅ Download concluído com sucesso!', 'success');
+                    showStatus(\'✅ Download concluído com sucesso!\', \'success\');
                 } else {
                     const errorData = await response.json();
-                    showStatus(`❌ Erro: ${errorData.error || 'Falha no download'}`, 'error');
+                    showStatus(`❌ Erro: ${errorData.error || \'Falha no download\'}`, \'error\');
                 }
             } catch (error) {
-                showStatus(`❌ Erro de conexão: ${error.message}`, 'error');
+                showStatus(`❌ Erro de conexão: ${error.message}`, \'error\');
             } finally {
                 downloadBtn.disabled = false;
             }
         });
 
         // Limpar status quando o usuário começar a digitar
-        document.getElementById('url').addEventListener('input', hideStatus);
+        document.getElementById(\'url\').addEventListener(\'input\', hideStatus);
     </script>
 </body>
 </html>
-
