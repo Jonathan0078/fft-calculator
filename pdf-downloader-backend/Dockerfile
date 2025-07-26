@@ -1,49 +1,43 @@
 
-FROM python:3.11-slim
+FROM python:3.9-slim
 
-# Instalar dependências do sistema necessárias para o Playwright
+# Install system dependencies for Playwright and other tools
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
     ca-certificates \
-    procps \
-    libgstreamer1.0-0 \
-    libgtk-4-1 \
-    libgraphene-1.0-0 \
-    libatomic1 \
-    libxslt1.1 \
-    libwoff1 \
-    libevent-2.1-7 \
-    libgstreamer-plugins-base1.0-0 \
-    libgstreamer-plugins-good1.0-0 \
-    libgstreamer-plugins-bad1.0-0 \
-    libwebpdemux2 \
-    libavif13 \
-    libharfbuzz-icu0 \
-    libenchant-2-2 \
-    libsecret-1-0 \
-    libhyphen0 \
-    libmanette-0.2-0 \
+    fonts-liberation \
+    libappindicator3-1 \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libxss1 \
+    libxtst6 \
+    xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Definir diretório de trabalho
+# Set working directory
 WORKDIR /app
 
-# Copiar requirements.txt (agora está na raiz do contexto)
+# Copy requirements and install Python dependencies
 COPY requirements.txt .
-
-# Instalar dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Instalar navegadores do Playwright
+# Install Playwright browsers
 RUN playwright install chromium
-RUN playwright install-deps
+RUN playwright install-deps chromium
 
-# Copiar todo o conteúdo do backend
+# Copy application code
 COPY . .
 
-# Expor porta
+# Create necessary directories
+RUN mkdir -p src/database
+
+# Expose port
 EXPOSE 5000
 
-# Comando para iniciar a aplicação Flask com gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "src.main:app"]
+# Run the application
+CMD ["python", "src/main.py"]
