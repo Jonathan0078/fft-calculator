@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: pdf-downloader
+    name: pdf-downloader-production
     env: docker
     dockerfilePath: ./Dockerfile
     plan: starter
