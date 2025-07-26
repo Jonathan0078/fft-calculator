@@ -1,4 +1,3 @@
-# Dockerfile para deploy no Render
 FROM python:3.11-slim
 
 # Instalar dependências do sistema necessárias para o Playwright
@@ -29,7 +28,7 @@ RUN apt-get update && apt-get install -y \
 # Definir diretório de trabalho
 WORKDIR /app
 
-# Copiar requirements.txt
+# Copiar requirements.txt do diretório do backend
 COPY pdf-downloader-backend/requirements.txt .
 
 # Instalar dependências Python
@@ -39,11 +38,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN playwright install chromium
 RUN playwright install-deps
 
-# Copiar código da aplicação
+# Copiar todo o conteúdo do repositório para o diretório de trabalho
 COPY . .
 
 # Expor porta
 EXPOSE 5000
 
-# Comando para iniciar a aplicação
+# Comando para iniciar a aplicação (apontando para o main.py dentro do diretório do backend)
 CMD ["python", "pdf-downloader-backend/src/main.py"]
