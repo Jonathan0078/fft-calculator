@@ -44,26 +44,5 @@ COPY . .
 # Expor porta
 EXPOSE 5000
 
-# Comando para iniciar a aplicação (apontando para o main.py dentro do diretório do backend)
+# Comando para iniciar a aplicação Flask
 CMD ["python", "pdf-downloader-backend/src/main.py"]
-FROM node:18-alpine
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy source code
-COPY . .
-
-# Install Python dependencies if needed
-RUN apk add --no-cache python3 py3-pip
-COPY pdf-downloader-backend/requirements.txt ./
-RUN pip3 install -r requirements.txt
-
-EXPOSE 5000
-
-CMD ["node", "run.js"]
