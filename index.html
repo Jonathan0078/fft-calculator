@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Downloader Web - Download de PDFs do Scribd e Domínio Público</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>PDF Downloader Web</span>
+                </div>
+                <nav class="nav">
+                    <a href="#home" class="nav-link active">Início</a>
+                    <a href="#features" class="nav-link">Recursos</a>
+                    <a href="#download" class="nav-link">Download</a>
+                    <a href="#about" class="nav-link">Sobre</a>
+                </nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Download de PDFs
+                        <span class="gradient-text">Simplificado</span>
+                    </h1>
+                    <p class="hero-description">
+                        Baixe documentos do Scribd e acesse milhares de livros em domínio público de forma fácil e gratuita. 
+                        Uma ferramenta poderosa para estudantes, pesquisadores e entusiastas do conhecimento.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="scrollToSection('download')">
+                            <i class="fas fa-download"></i>
+                            Começar Download
+                        </button>
+                        <button class="btn btn-secondary" onclick="scrollToSection('features')">
+                            <i class="fas fa-info-circle"></i>
+                            Saiba Mais
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-card">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>PDF</span>
+                    </div>
+                    <div class="floating-card delay-1">
+                        <i class="fas fa-book"></i>
+                        <span>Livros</span>
+                    </div>
+                    <div class="floating-card delay-2">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Educação</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Recursos Principais</h2>
+                <p class="section-description">
+                    Descubra todas as funcionalidades que tornam o PDF Downloader Web a melhor escolha
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fab fa-scribd"></i>
+                    </div>
+                    <h3 class="feature-title">Download do Scribd</h3>
+                    <p class="feature-description">
+                        Baixe documentos do Scribd usando múltiplos serviços de terceiros para garantir a melhor taxa de sucesso.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3 class="feature-title">Domínio Público</h3>
+                    <p class="feature-description">
+                        Acesse milhares de livros e documentos em domínio público de bibliotecas digitais renomadas.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Uso Ético</h3>
+                    <p class="feature-description">
+                        Desenvolvido com foco no respeito aos direitos autorais e uso responsável da tecnologia.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Interface Responsiva</h3>
+                    <p class="feature-description">
+                        Interface moderna e responsiva que funciona perfeitamente em desktop, tablet e mobile.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="feature-title">Código Aberto</h3>
+                    <p class="feature-description">
+                        Projeto open source disponível no GitHub para contribuições e melhorias da comunidade.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="feature-title">Fácil de Usar</h3>
+                    <p class="feature-description">
+                        Interface intuitiva que permite downloads com apenas alguns cliques, sem complicações.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Baixar Documentos</h2>
+                <p class="section-description">
+                    Escolha o tipo de download que você deseja realizar
+                </p>
+            </div>
+            <div class="download-tabs">
+                <button class="tab-btn active" data-tab="scribd">
+                    <i class="fab fa-scribd"></i>
+                    Scribd
+                </button>
+                <button class="tab-btn" data-tab="public">
+                    <i class="fas fa-university"></i>
+                    Domínio Público
+                </button>
+            </div>
+            
+            <!-- Scribd Tab -->
+            <div class="tab-content active" id="scribd-tab">
+                <div class="download-card">
+                    <div class="card-header">
+                        <i class="fab fa-scribd"></i>
+                        <h3>Download do Scribd</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <label for="scribdUrl">URL do Documento Scribd</label>
+                            <input 
+                                type="url" 
+                                id="scribdUrl" 
+                                placeholder="https://www.scribd.com/document/..." 
+                                class="form-input"
+                            >
+                            <small class="input-help">
+                                Cole aqui a URL completa do documento do Scribd que você deseja baixar
+                            </small>
+                        </div>
+                        <div class="input-group">
+                            <label for="outputDir">Diretório de Saída (Opcional)</label>
+                            <input 
+                                type="text" 
+                                id="outputDir" 
+                                placeholder="downloads" 
+                                class="form-input"
+                                value="downloads"
+                            >
+                        </div>
+                        <button class="btn btn-primary btn-download" onclick="downloadFromScribd()">
+                            <i class="fas fa-download"></i>
+                            <span class="btn-text">Baixar PDF</span>
+                            <div class="loading-spinner"></div>
+                        </button>
+                        <div class="download-result" id="scribdResult"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Public Domain Tab -->
+            <div class="tab-content" id="public-tab">
+                <div class="download-card">
+                    <div class="card-header">
+                        <i class="fas fa-university"></i>
+                        <h3>Buscar em Domínio Público</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <label for="searchQuery">Termo de Busca</label>
+                            <input 
+                                type="text" 
+                                id="searchQuery" 
+                                placeholder="Ex: python programming, literatura brasileira..." 
+                                class="form-input"
+                            >
+                            <small class="input-help">
+                                Digite o assunto ou título do livro que você está procurando
+                            </small>
+                        </div>
+                        <button class="btn btn-primary btn-download" onclick="searchPublicDomain()">
+                            <i class="fas fa-search"></i>
+                            <span class="btn-text">Buscar Livros</span>
+                            <div class="loading-spinner"></div>
+                        </button>
+                        <div class="download-result" id="publicResult"></div>
+                    </div>
+                </div>
+                
+                <!-- Public Domain Sources -->
+                <div class="public-sources">
+                    <h4>Fontes Recomendadas</h4>
+                    <div class="sources-grid">
+                        <a href="http://www.dominiopublico.gov.br/" target="_blank" class="source-card">
+                            <i class="fas fa-flag"></i>
+                            <div>
+                                <h5>Domínio Público</h5>
+                                <p>Biblioteca digital do governo brasileiro</p>
+                            </div>
+                        </a>
+                        <a href="https://www.gutenberg.org/" target="_blank" class="source-card">
+                            <i class="fas fa-globe"></i>
+                            <div>
+                                <h5>Project Gutenberg</h5>
+                                <p>Mais de 75.000 eBooks gratuitos</p>
+                            </div>
+                        </a>
+                        <a href="https://www.baixelivros.com.br/" target="_blank" class="source-card">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <h5>Baixe Livros</h5>
+                                <p>Livros em português para download</p>
+                            </div>
+                        </a>
+                        <a href="https://archive.org/" target="_blank" class="source-card">
+                            <i class="fas fa-archive"></i>
+                            <div>
+                                <h5>Internet Archive</h5>
+                                <p>Arquivo digital de livros e documentos</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">Sobre o Projeto</h2>
+                    <p class="about-description">
+                        O PDF Downloader Web é uma ferramenta desenvolvida para facilitar o acesso a conhecimento e 
+                        documentos educacionais. Nosso objetivo é democratizar o acesso à informação, sempre respeitando 
+                        os direitos autorais e promovendo o uso ético da tecnologia.
+                    </p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Código aberto e transparente</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Respeito aos direitos autorais</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Foco em conteúdo educacional</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Interface moderna e intuitiva</span>
+                        </div>
+                    </div>
+                    <div class="about-buttons">
+                        <a href="https://github.com/Jonathan0078/pdf-downloader-web" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-github"></i>
+                            Ver no GitHub
+                        </a>
+                        <button class="btn btn-secondary" onclick="scrollToSection('download')">
+                            <i class="fas fa-download"></i>
+                            Começar a Usar
+                        </button>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="code-preview">
+                        <div class="code-header">
+                            <div class="code-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span>pdf_downloader.py</span>
+                        </div>
+                        <div class="code-content">
+                            <div class="code-line">
+                                <span class="line-number">1</span>
+                                <span class="code-text"><span class="keyword">from</span> pdf_downloader <span class="keyword">import</span> PDFDownloader</span>
+                            </div>
+                            <div class="code-line">
+                                <span class="line-number">2</span>
+                                <span class="code-text"></span>
+                            </div>
+                            <div class="code-line">
+                                <span class="line-number">3</span>
+                                <span class="code-text">downloader = <span class="function">PDFDownloader</span>()</span>
+                            </div>
+                            <div class="code-line">
+                                <span class="line-number">4</span>
+                                <span class="code-text">result = downloader.<span class="function">download_from_scribd</span>(url)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>PDF Downloader Web</span>
+                    </div>
+                    <p class="footer-description">
+                        Democratizando o acesso ao conhecimento através da tecnologia.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Úteis</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#features">Recursos</a></li>
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="#about">Sobre</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Recursos</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/Jonathan0078/pdf-downloader-web" target="_blank">GitHub</a></li>
+                        <li><a href="http://www.dominiopublico.gov.br/" target="_blank">Domínio Público</a></li>
+                        <li><a href="https://www.gutenberg.org/" target="_blank">Project Gutenberg</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Aviso Legal</h4>
+                    <p class="legal-text">
+                        Este software é fornecido para fins educacionais. 
+                        Use com responsabilidade e respeite os direitos autorais.
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PDF Downloader Web. Desenvolvido com ❤️ para a comunidade.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
+
