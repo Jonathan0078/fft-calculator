@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scribd Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        #downloadBtn:disabled { cursor: not-allowed; opacity: 0.6; }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-2xl mx-auto p-6 md:p-8 bg-gray-800 rounded-2xl shadow-2xl border border-gray-700">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-emerald-400">Scribd Downloader</h1>
+            <p class="text-gray-400 mt-2">Cole a URL do documento do Scribd para baixar como PDF.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+            <input type="url" id="urlInput" placeholder="https://www.scribd.com/document/..." class="flex-grow bg-gray-700 text-white border-2 border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-4 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300">
+            <button id="downloadBtn" class="bg-emerald-500 hover:bg-emerald-600 text-gray-900 font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Baixar .pdf
+            </button>
+        </div>
+
+        <div id="status" class="bg-gray-900/50 border border-gray-700 rounded-lg p-4 h-56 overflow-y-auto text-sm font-mono">
+            <p class="text-gray-500">Aguardando URL para iniciar...</p>
+        </div>
+    </div>
+
+    <script>
+        const urlInput = document.getElementById('urlInput');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const statusDiv = document.getElementById('status');
+
+        function log(message, type = 'info') {
+            const p = document.createElement('p');
+            let prefix = '';
+            switch (type) {
+                case 'success': p.className = 'text-green-400'; prefix = '[SUCESSO]'; break;
+                case 'error': p.className = 'text-red-400'; prefix = '[ERRO]'; break;
+                default: p.className = 'text-gray-300'; prefix = '[INFO]';
+            }
+            p.textContent = `${prefix} ${message}`;
+            statusDiv.appendChild(p);
+            statusDiv.scrollTop = statusDiv.scrollHeight;
+        }
+
+        downloadBtn.addEventListener('click', async () => {
+            const url = urlInput.value.trim();
+            if (!url) {
+                log('Por favor, insira uma URL válida.', 'error');
+                return;
+            }
+
+            statusDiv.innerHTML = '';
+            log('Pedido enviado. O processo pode demorar vários minutos...', 'info');
+            downloadBtn.disabled = true;
+            downloadBtn.innerHTML = 'Aguarde...';
+
+            // URL do seu backend no Render (ATUALIZADA)
+            const renderBackendUrl = 'https://pdf-downloader-web.onrender.com'; 
+
+            try {
+                const downloadUrl = `${renderBackendUrl}/download-scribd?url=${encodeURIComponent(url)}`;
+                log('A contactar o servidor...');
+                
+                const response = await fetch(downloadUrl);
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ error: `O servidor respondeu com o status ${response.status}` }));
+                    throw new Error(errorData.details || errorData.error);
+                }
+
+                log('O servidor está a enviar o PDF...');
+                const blob = await response.blob();
+                const header = response.headers.get('Content-Disposition');
+                const parts = header.split(';');
+                const filename = parts[1].split('=')[1].replace(/"/g, '');
+                
+                saveAs(blob, filename || 'documento.pdf');
+                log('Download concluído!', 'success');
+
+            } catch (error) {
+                log(`Ocorreu um erro: ${error.message}`, 'error');
+            } finally {
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Baixar .pdf';
+            }
+        });
+    </script>
+</body>
+</html>
+
