@@ -23,10 +23,10 @@ app.get('/download-scribd', async (req, res) => {
     let browser = null;
     try {
         // ===================================================================
-        // CÓDIGO REVERTIDO PARA A VERSÃO SIMPLES
-        // Ele agora usará a variável de ambiente PUPPETEER_CACHE_DIR que configurámos.
+        // CORREÇÃO FINAL: Usando o caminho exato que o comando de build cria.
         // ===================================================================
         browser = await puppeteer.launch({
+            executablePath: '/opt/render/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux/chrome',
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
         
@@ -70,7 +70,7 @@ app.get('/download-scribd', async (req, res) => {
             const imageBuffer = await element.screenshot({ type: 'png' });
 
             const pngImage = await pdfDoc.embedPng(imageBuffer);
-            const pagePdf = pdfDoc.addPage([pngImage.width, pngImage.height]);
+            const pagePdf = doc.addPage([pngImage.width, pngImage.height]);
             pagePdf.drawImage(pngImage, {
                 x: 0,
                 y: 0,
