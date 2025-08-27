@@ -22,10 +22,7 @@ app.get('/download-scribd', async (req, res) => {
     console.log(`Iniciando processo para: ${scribdUrl}`);
     let browser = null;
     try {
-        // ===================================================================
-        // CÓDIGO PADRÃO: Deixa o Puppeteer encontrar o Chromium que ele mesmo
-        // instala durante o 'npm install'.
-        // ===================================================================
+        // Este código simples usará as configurações do Render para encontrar o Chrome.
         browser = await puppeteer.launch({
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
