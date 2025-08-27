@@ -1,6 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const puppeteer = require('puppeteer');
+let puppeteer;
+let chromium;
+const isServerless = process.env.AWS_LAMBDA_FUNCTION_VERSION || process.env.RENDER;
+if (isServerless) {
+    puppeteer = require('puppeteer-core');
+    chromium = require('chrome-aws-lambda');
+} else {
+    puppeteer = require('puppeteer');
+}
 const { PDFDocument } = require('pdf-lib');
 
 const app = express();
@@ -23,9 +31,15 @@ app.get('/download-scribd', async (req, res) => {
     let browser = null;
     try {
         // Este código simples usará as configurações do Render para encontrar o Chrome.
-        browser = await puppeteer.launch({
+        let launchOptions = {
             args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
+        };
+        if (isServerless) {
+            launchOptions.executablePath = await chromium.executablePath;
+            launchOptions.headless = chromium.headless;
+            launchOptions.defaultViewport = chromium.defaultViewport;
+        }
+        browser = await puppeteer.launch(launchOptions);
         
         const page = await browser.newPage();
         
