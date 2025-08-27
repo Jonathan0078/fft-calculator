@@ -23,11 +23,10 @@ app.get('/download-scribd', async (req, res) => {
     let browser = null;
     try {
         // ===================================================================
-        // ALTERAÇÃO IMPORTANTE AQUI
-        // Estamos a dizer explicitamente ao Puppeteer onde encontrar o Chrome.
+        // CÓDIGO REVERTIDO PARA A VERSÃO SIMPLES
+        // Ele agora usará a variável de ambiente PUPPETEER_CACHE_DIR que configurámos.
         // ===================================================================
         browser = await puppeteer.launch({
-            executablePath: '/opt/render/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux/chrome',
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
         
