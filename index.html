@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFT Calculator</title>
+    <link rel="stylesheet" href="style_fixed.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Transformada Rápida de Fourier (FFT)</h1>
+
+        <div class="main-content">
+            <div class="input-column">
+                <h2>Entradas</h2>
+                <div class="input-section">
+                    <label for="time-data">Dados de tempo (separados por vírgula):</label>
+                    <textarea id="time-data" rows="5" placeholder="Ex: 1, 2, 3, 4, 5, 6, 7, 8"></textarea>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="sample-rate">Taxa de Amostragem (Hz):</label>
+                            <input type="number" id="sample-rate" value="1000">
+                        </div>
+                        <div class="input-group">
+                            <label for="rpm">Rotação (RPM):</label>
+                            <input type="number" id="rpm" value="1800">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="window-function">Função de Janelamento:</label>
+                        <select id="window-function">
+                            <option value="hamming" selected>Hamming</option>
+                            <option value="hanning">Hanning</option>
+                            <option value="blackman">Blackman</option>
+                            <option value="kaiser">Kaiser</option>
+                            <option value="none">Nenhuma (Retangular)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="analysis-type">Tipo de Análise:</label>
+                        <select id="analysis-type">
+                            <option value="complete" selected>Diagnóstico Completo</option>
+                            <option value="bearing">Foco em Rolamentos</option>
+                            <option value="rotor">Foco em Rotor</option>
+                            <option value="transmission">Transmissão/Engrenagens</option>
+                        </select>
+                    </div>
+
+                    <div class="advanced-controls">
+                        <details>
+                            <summary>Controles Avançados</summary>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label for="frequency-resolution">Resolução em Freq. (Hz):</label>
+                                    <input type="number" id="frequency-resolution" value="0.5" step="0.1" min="0.1">
+                                </div>
+                                <div class="input-group">
+                                    <label for="overlap-percentage">Sobreposição (%):</label>
+                                    <input type="number" id="overlap-percentage" value="50" min="0" max="90">
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="bearing-type">Tipo de Rolamento:</label>
+                                <select id="bearing-type">
+                                    <option value="ball-bearing" selected>Rolamento de Esferas</option>
+                                    <option value="roller-bearing">Rolamento de Rolos</option>
+                                    <option value="tapered-roller">Rolamento Cônico</option>
+                                    <option value="custom">Personalizado</option>
+                                </select>
+                            </div>
+
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="enable-trending" checked>
+                                    Habilitar análise de tendências
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="enable-alertas" checked>
+                                    Alertas automáticos
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="show-sidebands" checked>
+                                    Mostrar bandas laterais
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="enable-envelope">
+                                    Análise de envelope (modulação)
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="enable-phase-analysis">
+                                    Análise de fase
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="auto-zoom-peaks" checked>
+                                    Auto-zoom em picos significativos
+                                </label>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="button-group">
+                        <button id="calculate-btn" type="button">Calcular FFT e Diagnosticar</button>
+                        <button id="save-baseline-btn" type="button" class="secondary-btn">Salvar como Baseline</button>
+                        <button id="compare-baseline-btn" type="button" class="secondary-btn">Comparar com Baseline</button>
+                        <button id="export-results-btn" type="button" class="secondary-btn">Exportar Resultados</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-column">
+                <h2>Resultados</h2>
+                <div class="output-section">
+                    <div class="results-header">
+                        <div id="peak-frequency-result"></div>
+                        <div id="overall-condition" class="condition-indicator"></div>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="fft-chart"></canvas>
+                        <div class="chart-controls">
+                            <button id="zoom-peak-btn" type="button" class="chart-btn">Zoom no Pico</button>
+                            <button id="zoom-harmonics-btn" type="button" class="chart-btn">Zoom Harmônicos</button>
+                            <button id="zoom-bearing-btn" type="button" class="chart-btn">Zoom Rolamentos</button>
+                            <button id="reset-zoom-btn" type="button" class="chart-btn">Reset Zoom</button>
+                        </div>
+                    </div>
+
+                    <div id="interpretation-section">
+                        <h3>🔍 Diagnóstico Inteligente de Vibrações</h3>
+                        <div id="interpretation-output"></div>
+                    </div>
+
+                    <div id="alerts-section" class="intelligent-alerts">
+                        <div id="alerts-output"></div>
+                    </div>
+
+                    <div class="additional-analysis">
+                        <div class="analysis-tabs">
+                            <button class="tab-btn active" data-tab="spectral">Análise Espectral</button>
+                            <button class="tab-btn" data-tab="trending">Tendências</button>
+                            <button class="tab-btn" data-tab="comparison">Comparação</button>
+                            <button class="tab-btn" data-tab="report">Relatório</button>
+                        </div>
+
+                        <div id="spectral-analysis" class="tab-content active">
+                            <h4>Análise Espectral Detalhada</h4>
+                            <div id="spectral-details">
+                                <div class="stats-grid">
+                                    <div class="stat-card">
+                                        <h5>RMS</h5>
+                                        <span id="rms-value">-</span>
+                                    </div>
+                                    <div class="stat-card">
+                                        <h5>Fator de Crista</h5>
+                                        <span id="crest-factor-value">-</span>
+                                    </div>
+                                    <div class="stat-card">
+                                        <h5>Curtose</h5>
+                                        <span id="kurtosis-value">-</span>
+                                    </div>
+                                    <div class="stat-card">
+                                        <h5>Centróide Espectral</h5>
+                                        <span id="centroid-value">-</span>
+                                    </div>
+                                </div>
+
+                                <div class="energy-distribution">
+                                    <h5>Distribuição de Energia</h5>
+                                    <div class="energy-bars">
+                                        <div class="energy-bar">
+                                            <label>Baixas Frequências:</label>
+                                            <div class="progress-bar">
+                                                <div id="low-energy-bar" class="progress-fill"></div>
+                                                <span id="low-energy-text">0%</span>
+                                            </div>
+                                        </div>
+                                        <div class="energy-bar">
+                                            <label>Médias Frequências:</label>
+                                            <div class="progress-bar">
+                                                <div id="mid-energy-bar" class="progress-fill"></div>
+                                                <span id="mid-energy-text">0%</span>
+                                            </div>
+                                        </div>
+                                        <div class="energy-bar">
+                                            <label>Altas Frequências:</label>
+                                            <div class="progress-bar">
+                                                <div id="high-energy-bar" class="progress-fill"></div>
+                                                <span id="high-energy-text">0%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="trending-analysis" class="tab-content">
+                            <h4>Análise de Tendências</h4>
+                            <div id="trending-output">
+                                <p>Histórico de medições será exibido aqui para análise de tendências.</p>
+                                <canvas id="trend-chart" style="display:none;"></canvas>
+                            </div>
+                        </div>
+
+                        <div id="comparison-analysis" class="tab-content">
+                            <h4>Comparação com Baseline</h4>
+                            <div id="comparison-details">
+                                <p>Salve um baseline para comparar medições futuras.</p>
+                            </div>
+                        </div>
+
+                        <div id="report-section" class="tab-content">
+                            <h4>Relatório de Diagnóstico</h4>
+                            <div id="report-preview"></div>
+                            <div class="report-buttons">
+                                <button id="download-report-btn" type="button" class="action-btn">📄 Baixar Relatório PDF</button>
+                                <button id="export-data-btn" type="button" class="action-btn">📊 Exportar Dados CSV</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <details>
+                        <summary>📈 Ver dados brutos da FFT</summary>
+                        <pre id="fft-output"></pre>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="diagnostic-database.js"></script>
+    <script src="script_fixed.js"></script>
+</body>
+</html>
+
