@@ -1,14 +1,14 @@
 // Função principal de inicialização
 function initializeCalculator() {
     console.log('Inicializando calculadora FFT...');
-    
+
     // Verifica se Chart.js está disponível
     if (typeof Chart === 'undefined') {
         console.error('Chart.js não carregado!');
         alert('Erro: Chart.js não foi carregado. Recarregue a página.');
         return;
     }
-    
+
     // Adiciona listener ao botão calcular
     const calculateBtn = document.getElementById('calculate-btn');
     if (calculateBtn) {
@@ -18,12 +18,12 @@ function initializeCalculator() {
         console.error('Botão calcular não encontrado!');
         return;
     }
-    
+
     // Inicializa outros componentes
     initializeTabControls();
     initializeZoomControls();
     initializeExportControls();
-    
+
     console.log('Calculadora inicializada com sucesso');
 }
 
@@ -33,7 +33,7 @@ function handleCalculateClick() {
         const timeDataInput = document.getElementById('time-data').value;
         const sampleRate = parseFloat(document.getElementById('sample-rate').value);
         const windowFunction = document.getElementById('window-function').value;
-        
+
         let timeData = timeDataInput.split(',').map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
 
         if (timeData.length === 0) {
@@ -60,7 +60,7 @@ function handleCalculateClick() {
             // Análise com sobreposição
             const windowSize = Math.pow(2, Math.floor(Math.log2(windowedData.length / 4)));
             const hopSize = Math.floor(windowSize * (1 - overlapPercentage / 100));
-            
+
             for (let i = 0; i + windowSize <= windowedData.length; i += hopSize) {
                 const segment = windowedData.slice(i, i + windowSize);
                 const paddedSegment = padData(segment, windowSize);
@@ -71,7 +71,7 @@ function handleCalculateClick() {
             // Média das magnitudes dos segmentos
             const segmentLength = fftResults[0].length;
             finalMagnitudes = new Array(segmentLength / 2).fill(0);
-            
+
             fftResults.forEach(result => {
                 const segmentMagnitudes = result.slice(0, segmentLength / 2).map(c => Math.sqrt(c.re * c.re + c.im * c.im) / (segmentLength/2));
                 segmentMagnitudes.forEach((mag, i) => {
@@ -159,7 +159,7 @@ function updateChart(freqs, magnitudes, harmonics = []) {
         console.error('Canvas fft-chart não encontrado!');
         return;
     }
-    
+
     if (fftChart) {
         fftChart.destroy();
     }
@@ -220,7 +220,7 @@ function updateChart(freqs, magnitudes, harmonics = []) {
                 }
             }
         });
-        
+
         console.log('Gráfico criado com sucesso');
     } catch (error) {
         console.error('Erro ao criar gráfico:', error);
@@ -309,7 +309,7 @@ function fft(data) {
             let angle = 0;
             for (let j = i; j < i + halfSize; j++) {
                 const k = j + halfSize;
-                
+
                 const w_re = Math.cos(angle);
                 const w_im = Math.sin(angle);
 
@@ -321,7 +321,7 @@ function fft(data) {
 
                 output[j].re += t_re;
                 output[j].im += t_im;
-                
+
                 angle += angle_step;
             }
         }
@@ -342,7 +342,7 @@ function reverseBits(x, bits) {
 function findClosestFrequencyIndex(freqs, targetFreq) {
     let closestIndex = -1;
     let minDiff = Infinity;
-    
+
     for (let i = 0; i < freqs.length; i++) {
         const diff = Math.abs(freqs[i] - targetFreq);
         if (diff < minDiff) {
@@ -350,7 +350,7 @@ function findClosestFrequencyIndex(freqs, targetFreq) {
             closestIndex = i;
         }
     }
-    
+
     return closestIndex;
 }
 
@@ -397,7 +397,7 @@ function performDiagnosticAnalysis(magnitudes, freqs, rpm, peak) {
     // Análise de desalinhamento (2X, 3X RPM)
     const alignment2X = results.harmonics.find(h => h.order === 2);
     const alignment3X = results.harmonics.find(h => h.order === 3);
-    if ((alignment2X && alignment2X.magnitude > unbalanceThreshold * 0.6) || 
+    if ((alignment2X && alignment2X.magnitude > unbalanceThreshold * 0.6) ||
         (alignment3X && alignment3X.magnitude > unbalanceThreshold * 0.4)) {
         results.faultDetection.misalignment = true;
         results.recommendations.push("Verificar alinhamento do equipamento");
@@ -426,7 +426,7 @@ function calculateBearingFrequencies(rpm) {
     const rotationFreq = rpm / 60;
     return {
         BPFO: rotationFreq * 3.5, // Ball Pass Frequency Outer race
-        BPFI: rotationFreq * 5.4, // Ball Pass Frequency Inner race  
+        BPFI: rotationFreq * 5.4, // Ball Pass Frequency Inner race
         FTF: rotationFreq * 0.4,  // Fundamental Train Frequency
         BSF: rotationFreq * 2.3   // Ball Spin Frequency
     };
@@ -463,12 +463,12 @@ function getBearingDefectDescription(type) {
 
 function determineSeverityLevel(results) {
     let severityScore = 0;
-    
+
     if (results.faultDetection.unbalance) severityScore += 2;
     if (results.faultDetection.misalignment) severityScore += 3;
     if (results.faultDetection.looseness) severityScore += 4;
     if (results.faultDetection.bearingDefects.length > 0) severityScore += 5;
-    
+
     if (severityScore === 0) return 'Normal';
     if (severityScore <= 3) return 'Atenção';
     if (severityScore <= 7) return 'Alerta';
@@ -484,7 +484,7 @@ function displayDiagnosticInterpretation(diagnosticResults) {
     }
 
     const severityClass = `severity-${diagnosticResults.severityLevel.toLowerCase()}`;
-    
+
     let html = `
         <div class="diagnostic-summary">
             <div class="severity-indicator ${severityClass}">
@@ -619,7 +619,7 @@ function getHarmonicIndication(order, magnitude) {
 // --- Função para gerar alertas inteligentes ---
 function generateIntelligentAlerts(diagnosticResults, spectralStats, trendAnalysis) {
     const alerts = [];
-    
+
     // Alertas baseados em severidade
     if (diagnosticResults.severityLevel === 'Crítico') {
         alerts.push({
@@ -634,7 +634,7 @@ function generateIntelligentAlerts(diagnosticResults, spectralStats, trendAnalys
             priority: 2
         });
     }
-    
+
     // Alertas específicos por tipo de defeito
     if (diagnosticResults.faultDetection.unbalance) {
         alerts.push({
@@ -643,7 +643,7 @@ function generateIntelligentAlerts(diagnosticResults, spectralStats, trendAnalys
             priority: 3
         });
     }
-    
+
     if (diagnosticResults.faultDetection.bearingDefects.length > 0) {
         alerts.push({
             type: 'maintenance',
@@ -651,7 +651,7 @@ function generateIntelligentAlerts(diagnosticResults, spectralStats, trendAnalys
             priority: 2
         });
     }
-    
+
     return alerts;
 }
 
@@ -661,18 +661,18 @@ function displayIntelligentAlerts(alerts) {
         console.error('Elemento alerts-output não encontrado');
         return;
     }
-    
+
     if (alerts.length === 0) {
         alertsOutput.innerHTML = '<div class="alert-info">✅ Nenhum alerta crítico detectado.</div>';
         return;
     }
-    
+
     let html = '<h4>🚨 Alertas Inteligentes</h4>';
     alerts.forEach(alert => {
         const alertClass = `alert-${alert.type}`;
         html += `<div class="${alertClass}">${alert.message}</div>`;
     });
-    
+
     alertsOutput.innerHTML = html;
 }
 
@@ -680,32 +680,32 @@ function displayIntelligentAlerts(alerts) {
 function calculateAdvancedStatistics(magnitudes, freqs, timeData) {
     // RMS
     const rms = Math.sqrt(timeData.reduce((sum, val) => sum + val * val, 0) / timeData.length);
-    
+
     // Fator de Crista
     const peak = Math.max(...timeData.map(Math.abs));
     const crestFactor = peak / rms;
-    
+
     // Curtose (indicador de impactos)
     const mean = timeData.reduce((sum, val) => sum + val, 0) / timeData.length;
     const variance = timeData.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / timeData.length;
     const stdDev = Math.sqrt(variance);
     const kurtosis = timeData.reduce((sum, val) => sum + Math.pow((val - mean) / stdDev, 4), 0) / timeData.length;
-    
+
     // Centróide espectral
     const totalEnergy = magnitudes.reduce((sum, mag) => sum + mag, 0);
     const centroid = magnitudes.reduce((sum, mag, i) => sum + mag * freqs[i], 0) / totalEnergy;
-    
+
     // Distribuição de energia por bandas
     const lowBand = magnitudes.slice(0, Math.floor(magnitudes.length * 0.33)).reduce((sum, mag) => sum + mag, 0);
     const midBand = magnitudes.slice(Math.floor(magnitudes.length * 0.33), Math.floor(magnitudes.length * 0.66)).reduce((sum, mag) => sum + mag, 0);
     const highBand = magnitudes.slice(Math.floor(magnitudes.length * 0.66)).reduce((sum, mag) => sum + mag, 0);
-    
+
     const energyDistribution = {
         low: (lowBand / totalEnergy) * 100,
         mid: (midBand / totalEnergy) * 100,
         high: (highBand / totalEnergy) * 100
     };
-    
+
     return {
         rms: rms,
         crestFactor: crestFactor,
@@ -721,12 +721,12 @@ function updateSpectralAnalysisDisplay(stats) {
     const crestElement = document.getElementById('crest-factor-value');
     const kurtosisElement = document.getElementById('kurtosis-value');
     const centroidElement = document.getElementById('centroid-value');
-    
+
     if (rmsElement) rmsElement.textContent = stats.rms.toFixed(4);
     if (crestElement) crestElement.textContent = stats.crestFactor.toFixed(2);
     if (kurtosisElement) kurtosisElement.textContent = stats.kurtosis.toFixed(2);
     if (centroidElement) centroidElement.textContent = `${stats.centroid.toFixed(1)} Hz`;
-    
+
     // Distribuição de energia
     const lowEnergyBar = document.getElementById('low-energy-bar');
     const lowEnergyText = document.getElementById('low-energy-text');
@@ -734,7 +734,7 @@ function updateSpectralAnalysisDisplay(stats) {
     const midEnergyText = document.getElementById('mid-energy-text');
     const highEnergyBar = document.getElementById('high-energy-bar');
     const highEnergyText = document.getElementById('high-energy-text');
-    
+
     if (lowEnergyBar) lowEnergyBar.style.width = `${stats.energyDistribution.low}%`;
     if (lowEnergyText) lowEnergyText.textContent = `${stats.energyDistribution.low.toFixed(1)}%`;
     if (midEnergyBar) midEnergyBar.style.width = `${stats.energyDistribution.mid}%`;
@@ -747,15 +747,15 @@ function updateSpectralAnalysisDisplay(stats) {
 function calculateEnvelopeSpectrum(timeData, sampleRate) {
     // Filtragem passa-alta para isolar componentes de alta frequência
     const filteredData = applyHighPassFilter(timeData, sampleRate, 1000); // 1kHz de corte
-    
+
     // Cálculo do envelope através da transformada de Hilbert (aproximação)
     const envelope = calculateHilbertEnvelope(filteredData);
-    
+
     // FFT do envelope
     const envelopeFFT = fft(padData(envelope, Math.pow(2, Math.ceil(Math.log2(envelope.length)))));
     const N = envelopeFFT.length;
     const envelopeMagnitudes = envelopeFFT.slice(0, N / 2).map(c => Math.sqrt(c.re * c.re + c.im * c.im) / (N/2));
-    
+
     return envelopeMagnitudes;
 }
 
@@ -764,7 +764,7 @@ function applyHighPassFilter(data, sampleRate, cutoffFreq) {
     const RC = 1 / (2 * Math.PI * cutoffFreq);
     const dt = 1 / sampleRate;
     const alpha = RC / (RC + dt);
-    
+
     let filtered = [data[0]];
     for (let i = 1; i < data.length; i++) {
         filtered[i] = alpha * (filtered[i-1] + data[i] - data[i-1]);
@@ -776,11 +776,11 @@ function calculateHilbertEnvelope(data) {
     // Aproximação simples do envelope usando média móvel da magnitude
     const envelope = [];
     const windowSize = Math.max(3, Math.floor(data.length / 100));
-    
+
     for (let i = 0; i < data.length; i++) {
         let sum = 0;
         let count = 0;
-        
+
         for (let j = Math.max(0, i - windowSize); j <= Math.min(data.length - 1, i + windowSize); j++) {
             sum += Math.abs(data[j]);
             count++;
@@ -794,24 +794,24 @@ function calculateHilbertEnvelope(data) {
 function analyzeModulation(magnitudes, freqs, rpm) {
     const rotationFreq = rpm / 60;
     const modulations = [];
-    
+
     // Procura por bandas laterais ao redor de harmônicos
     for (let harmonic = 1; harmonic <= 5; harmonic++) {
         const harmonicFreq = rotationFreq * harmonic;
         const harmonicIndex = findClosestFrequencyIndex(freqs, harmonicFreq);
-        
+
         if (harmonicIndex !== -1) {
             // Verifica bandas laterais ±1X RPM
             const leftSideband = findClosestFrequencyIndex(freqs, harmonicFreq - rotationFreq);
             const rightSideband = findClosestFrequencyIndex(freqs, harmonicFreq + rotationFreq);
-            
+
             if (leftSideband !== -1 && rightSideband !== -1) {
                 const centerMag = magnitudes[harmonicIndex];
                 const leftMag = magnitudes[leftSideband];
                 const rightMag = magnitudes[rightSideband];
-                
+
                 const modulationDepth = (leftMag + rightMag) / centerMag;
-                
+
                 if (modulationDepth > 0.1) { // 10% de modulação
                     modulations.push({
                         harmonic: harmonic,
@@ -823,7 +823,7 @@ function analyzeModulation(magnitudes, freqs, rpm) {
             }
         }
     }
-    
+
     return modulations;
 }
 
@@ -838,12 +838,12 @@ function getModulationIndication(depth) {
 function calculatePhaseAnalysis(fftResult, freqs, rpm) {
     const rotationFreq = rpm / 60;
     const phaseAnalysis = [];
-    
+
     // Calcula fase dos harmônicos principais
     for (let harmonic = 1; harmonic <= 3; harmonic++) {
         const harmonicFreq = rotationFreq * harmonic;
         const index = findClosestFrequencyIndex(freqs, harmonicFreq);
-        
+
         if (index !== -1) {
             const phase = Math.atan2(fftResult[index].im, fftResult[index].re) * 180 / Math.PI;
             phaseAnalysis.push({
@@ -854,7 +854,7 @@ function calculatePhaseAnalysis(fftResult, freqs, rpm) {
             });
         }
     }
-    
+
     return phaseAnalysis;
 }
 
@@ -868,19 +868,19 @@ function analyzeTrendWithBaseline(currentData, baselineData) {
         crestFactorChange: currentData.statistics.crestFactor - baselineData.statistics.crestFactor,
         trend: 'Estável'
     };
-    
+
     // Determina tendência geral
     if (Math.abs(comparison.peakMagChange) > 20 || Math.abs(comparison.rmsChange) > 20) {
         comparison.trend = comparison.peakMagChange > 0 ? 'Deterioração' : 'Melhoria';
     }
-    
+
     return comparison;
 }
 
 function updateTrendingDisplay(trendAnalysis) {
     const trendingOutput = document.getElementById('trending-output');
     if (!trendingOutput) return;
-    
+
     let html = `
         <div class="trend-summary">
             <h5>Análise de Tendências</h5>
@@ -889,7 +889,7 @@ function updateTrendingDisplay(trendAnalysis) {
             <p><strong>Mudança no RMS:</strong> ${trendAnalysis.rmsChange.toFixed(1)}%</p>
         </div>
     `;
-    
+
     trendingOutput.innerHTML = html;
 }
 
@@ -907,16 +907,16 @@ function initializeTabControls() {
         button.addEventListener('click', (e) => {
             e.preventDefault();
             const targetTab = button.getAttribute('data-tab');
-            
+
             if (!targetTab) {
                 console.error('Atributo data-tab não encontrado no botão');
                 return;
             }
-            
+
             // Remove active de todas as abas
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
-            
+
             // Ativa a aba selecionada
             button.classList.add('active');
             const targetContent = document.getElementById(`${targetTab}-analysis`);
@@ -1025,7 +1025,7 @@ function saveBaseline() {
     if (currentSpectralData) {
         baselineData = JSON.parse(JSON.stringify(currentSpectralData));
         baselineData.timestamp = new Date();
-        
+
         localStorage.setItem('fftCalculatorBaseline', JSON.stringify(baselineData));
         alert('Baseline salvo com sucesso! Data: ' + baselineData.timestamp.toLocaleString('pt-BR'));
         updateBaselineComparison();
@@ -1060,7 +1060,7 @@ function exportResults(data) {
     // Cria arquivo CSV
     let csvContent = "data:text/csv;charset=utf-8,";
     csvContent += "Frequencia (Hz),Magnitude,Ordem\n";
-    
+
     data.frequencies.forEach((freq, index) => {
         const order = freq / (data.diagnostics.rotationFreq || 1);
         csvContent += `${freq.toFixed(4)},${data.magnitudes[index].toFixed(6)},${order.toFixed(2)}\n`;
@@ -1127,12 +1127,12 @@ function updateBaselineComparison() {
 function displayBaselineComparison(comparison) {
     const comparisonDiv = document.getElementById('comparison-details');
     if (!comparisonDiv) return;
-    
+
     let html = `
         <h5>Comparação com Baseline</h5>
         <p><strong>Data do Baseline:</strong> ${new Date(baselineData.timestamp).toLocaleString('pt-BR')}</p>
         <p><strong>Data Atual:</strong> ${comparison.timestamp.toLocaleString('pt-BR')}</p>
-        
+
         <div class="comparison-summary">
             <div class="comparison-item ${comparison.peakMagChange > 20 ? 'change-negative' : comparison.peakMagChange < -20 ? 'change-positive' : 'change-neutral'}">
                 <strong>Magnitude do Pico:</strong> ${comparison.peakMagChange.toFixed(1)}%
@@ -1145,7 +1145,7 @@ function displayBaselineComparison(comparison) {
             </div>
         </div>
     `;
-    
+
     comparisonDiv.innerHTML = html;
 }
 
@@ -1182,6 +1182,11 @@ function displayResults(magnitudes, freqs, peak, diagnosticResults, spectralStat
     // --- Atualiza o gráfico ---
     updateChart(freqs, magnitudes, diagnosticResults.harmonics);
 
+    // --- Atualiza visualização 3D se ativada ---
+    if (typeof updateSpectral3D === 'function') {
+        updateSpectral3D(freqs, magnitudes);
+    }
+
     // --- Atualiza análise de tendências se disponível ---
     if (trendAnalysis) {
         updateTrendingDisplay(trendAnalysis);
@@ -1191,10 +1196,9 @@ function displayResults(magnitudes, freqs, peak, diagnosticResults, spectralStat
 // Event listeners carregados após o DOM
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM carregado - inicializando calculadora');
-    
+
     // Aguarda um pouco para garantir que o Chart.js carregou
     setTimeout(() => {
         initializeCalculator();
     }, 100);
 });
-

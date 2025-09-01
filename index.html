@@ -102,11 +102,47 @@
                         </details>
                     </div>
 
+                    <!-- Controles do Acelerômetro -->
+                    <div class="sensor-controls">
+                        <h3>📱 Sensor de Vibração (Acelerômetro)</h3>
+                        <div class="sensor-status">
+                            <div id="sensor-indicator" class="sensor-indicator"></div>
+                            <span id="sensor-status-text">Sensor Desconectado</span>
+                        </div>
+                        
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="capture-duration">Duração da Captura (s):</label>
+                                <input type="number" id="capture-duration" value="10" min="1" max="60">
+                            </div>
+                            <div class="input-group">
+                                <label for="sensitivity">Sensibilidade:</label>
+                                <select id="sensitivity">
+                                    <option value="low">Baixa (Máquinas Grandes)</option>
+                                    <option value="medium" selected>Média (Geral)</option>
+                                    <option value="high">Alta (Micro Vibrações)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="vibration-display">
+                            <div class="vibration-value" id="vibration-display">0.00 m/s²</div>
+                            <div style="text-align: center; margin-top: 0.5rem;">
+                                <small>X: <span id="accel-x">0.00</span> | Y: <span id="accel-y">0.00</span> | Z: <span id="accel-z">0.00</span></small>
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button id="start-sensor-btn" type="button" class="action-btn">🎯 Iniciar Captura</button>
+                            <button id="stop-sensor-btn" type="button" class="secondary-btn" disabled>⏹️ Parar Captura</button>
+                        </div>
+                    </div>
+
                     <div class="button-group">
-                        <button id="calculate-btn" type="button">Calcular FFT e Diagnosticar</button>
-                        <button id="save-baseline-btn" type="button" class="secondary-btn">Salvar como Baseline</button>
-                        <button id="compare-baseline-btn" type="button" class="secondary-btn">Comparar com Baseline</button>
-                        <button id="export-results-btn" type="button" class="secondary-btn">Exportar Resultados</button>
+                        <button id="calculate-btn" type="button">🚀 Calcular FFT e Diagnosticar</button>
+                        <button id="save-baseline-btn" type="button" class="secondary-btn">💾 Salvar como Baseline</button>
+                        <button id="compare-baseline-btn" type="button" class="secondary-btn">📊 Comparar com Baseline</button>
+                        <button id="export-results-btn" type="button" class="secondary-btn">📤 Exportar Resultados</button>
                     </div>
                 </div>
             </div>
@@ -129,6 +165,28 @@
                         </div>
                     </div>
 
+                    <div class="spectral-3d-section">
+                        <h3>📊 Visualizações Espectrais 3D</h3>
+                        <div class="spectral-3d-controls">
+                            <button id="init-3d-btn" type="button" class="action-btn">🚀 Inicializar Visualização 3D</button>
+                            <div class="mode-controls">
+                                <label>Modo de Visualização:</label>
+                                <select id="spectral-3d-mode">
+                                    <option value="waterfall">Espectrograma/Waterfall</option>
+                                    <option value="surface">Superfície 3D</option>
+                                    <option value="bars">Barras 3D</option>
+                                    <option value="orbit">Análise de Órbita</option>
+                                </select>
+                                <button id="screenshot-3d-btn" type="button" class="chart-btn">📷 Capturar</button>
+                            </div>
+                        </div>
+                        <div id="spectral-3d-container" class="spectral-3d-viewport"></div>
+                        <div class="spectral-3d-info">
+                            <p><strong>🎮 Controles:</strong> Mouse para rotacionar, scroll para zoom, drag para mover</p>
+                            <p><strong>📈 Eixos:</strong> X=Frequência, Y=Magnitude, Z=Tempo</p>
+                        </div>
+                    </div>
+
                     <div id="interpretation-section">
                         <h3>🔍 Diagnóstico Inteligente de Vibrações</h3>
                         <div id="interpretation-output"></div>
@@ -143,7 +201,18 @@
                             <button class="tab-btn active" data-tab="spectral">Análise Espectral</button>
                             <button class="tab-btn" data-tab="trending">Tendências</button>
                             <button class="tab-btn" data-tab="comparison">Comparação</button>
-                            <button class="tab-btn" data-tab="report">Relatório</button>
+                            <button class="tab-btn" data-tab="calculator">Calculadoras</button>
+                            <button class="tab-btn" data-tab="database">Base de Dados</button>
+                            <button class="tab-btn" data-tab="test">Testes</button>
+                            <button class="tab-btn" data-tab="ai-diagnostic">IA Diagnóstico</button>
+                            <button class="tab-btn" data-tab="orbit-analysis">Análise Órbita</button>
+                            <button class="tab-btn" data-tab="dashboard">Dashboard</button>
+                            <button class="tab-btn" data-tab="reports">Relatórios</button>
+                            <button class="tab-btn" data-tab="waterfall">Waterfall</button>
+                            <button class="tab-btn" data-tab="envelope">Envelope</button>
+                            <button class="tab-btn" data-tab="alerts">Alertas</button>
+                            <button class="tab-btn" data-tab="statistics">Estatísticas</button>
+                            <button class="tab-btn" data-tab="backup">Backup</button>
                         </div>
 
                         <div id="spectral-analysis" class="tab-content active">
@@ -218,6 +287,329 @@
                             <div class="report-buttons">
                                 <button id="download-report-btn" type="button" class="action-btn">📄 Baixar Relatório PDF</button>
                                 <button id="export-data-btn" type="button" class="action-btn">📊 Exportar Dados CSV</button>
+                                <button id="export-database-btn" type="button" class="action-btn">💾 Exportar Base de Dados</button>
+                            </div>
+                        </div>
+
+                        <div id="calculator-tools" class="tab-content">
+                            <h4>🧮 Calculadoras Especializadas</h4>
+                            
+                            <div class="calculator-grid">
+                                <div class="calc-card">
+                                    <h5>Máquinas Rotativas</h5>
+                                    <div class="calc-inputs">
+                                        <label>RPM:</label>
+                                        <input type="number" id="calc-rpm" value="1800">
+                                        <label>Diâmetro Pitch (mm):</label>
+                                        <input type="number" id="calc-pitch-diameter" value="50">
+                                        <label>Número de Esferas:</label>
+                                        <input type="number" id="calc-ball-count" value="8">
+                                        <button id="calc-rotating-btn" class="calc-btn">Calcular</button>
+                                    </div>
+                                    <div id="calc-rotating-result" class="calc-result"></div>
+                                </div>
+
+                                <div class="calc-card">
+                                    <h5>Ressonância</h5>
+                                    <div class="calc-inputs">
+                                        <label>Massa (kg):</label>
+                                        <input type="number" id="calc-mass" value="100" step="0.1">
+                                        <label>Rigidez (N/m):</label>
+                                        <input type="number" id="calc-stiffness" value="1000000">
+                                        <label>Amortecimento (Ns/m):</label>
+                                        <input type="number" id="calc-damping" value="100">
+                                        <button id="calc-resonance-btn" class="calc-btn">Calcular</button>
+                                    </div>
+                                    <div id="calc-resonance-result" class="calc-result"></div>
+                                </div>
+
+                                <div class="calc-card">
+                                    <h5>Severidade ISO 10816</h5>
+                                    <div class="calc-inputs">
+                                        <label>RMS Velocidade (mm/s):</label>
+                                        <input type="number" id="calc-rms-velocity" value="2.5" step="0.1">
+                                        <label>Tipo de Máquina:</label>
+                                        <select id="calc-machine-type">
+                                            <option value="general">Geral</option>
+                                            <option value="largeMachine">Máquina Grande</option>
+                                            <option value="pump">Bomba</option>
+                                        </select>
+                                        <button id="calc-severity-btn" class="calc-btn">Calcular</button>
+                                    </div>
+                                    <div id="calc-severity-result" class="calc-result"></div>
+                                </div>
+
+                                <div class="calc-card">
+                                    <h5>Conversões de Unidades</h5>
+                                    <div class="calc-inputs">
+                                        <label>Valor:</label>
+                                        <input type="number" id="convert-value" value="1" step="0.001">
+                                        <label>Conversão:</label>
+                                        <select id="convert-type">
+                                            <option value="mmsToMps">mm/s → m/s</option>
+                                            <option value="mpsToMms">m/s → mm/s</option>
+                                            <option value="gToMps2">g → m/s²</option>
+                                            <option value="mps2ToG">m/s² → g</option>
+                                            <option value="hzToRpm">Hz → RPM</option>
+                                            <option value="rpmToHz">RPM → Hz</option>
+                                        </select>
+                                        <button id="convert-btn" class="calc-btn">Converter</button>
+                                    </div>
+                                    <div id="convert-result" class="calc-result"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="database-tools" class="tab-content">
+                            <h4>💾 Histórico e Base de Dados</h4>
+                            
+                            <div class="database-controls">
+                                <div class="equipment-section">
+                                    <h5>Equipamentos</h5>
+                                    <div class="equipment-controls">
+                                        <input type="text" id="equipment-name" placeholder="Nome do equipamento">
+                                        <button id="add-equipment-btn" class="action-btn">Adicionar Equipamento</button>
+                                        <select id="equipment-select">
+                                            <option value="">Selecionar equipamento...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="history-section">
+                                    <h5>Histórico de Análises</h5>
+                                    <div class="history-controls">
+                                        <button id="load-history-btn" class="action-btn">Carregar Histórico</button>
+                                        <button id="clear-history-btn" class="action-btn">Limpar Histórico</button>
+                                        <button id="trend-analysis-btn" class="action-btn">Análise de Tendências</button>
+                                    </div>
+                                    <div id="history-display" class="history-table"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="test-tools" class="tab-content">
+                            <h4>🧪 Sistema de Testes</h4>
+                            
+                            <div class="test-controls">
+                                <button id="run-tests-btn" class="action-btn">🧪 Executar Todos os Testes</button>
+                                <button id="run-performance-test-btn" class="action-btn">⚡ Teste de Performance</button>
+                                <button id="run-accuracy-test-btn" class="action-btn">🎯 Teste de Precisão</button>
+                            </div>
+                            
+                            <div id="test-results" class="test-results-container">
+                                <p>Execute os testes para verificar o funcionamento da ferramenta.</p>
+                            </div>
+                        </div>
+
+                        <div id="ai-diagnostic-tab" class="tab-content">
+                            <h4>🤖 Diagnóstico com Inteligência Artificial</h4>
+                            
+                            <div class="ai-diagnostic-container">
+                                <div class="ai-diagnostic-header">
+                                    <h3>🧠 Sistema de IA para Diagnóstico Automático</h3>
+                                    <p>Análise avançada com machine learning e reconhecimento de padrões</p>
+                                </div>
+                                
+                                <div class="ai-controls">
+                                    <button id="run-ai-analysis-btn" class="action-btn">🚀 Executar Análise IA</button>
+                                    <button id="train-ai-btn" class="secondary-btn">📚 Treinar Modelo</button>
+                                    <select id="ai-model-select">
+                                        <option value="general">Modelo Geral</option>
+                                        <option value="rotating">Máquinas Rotativas</option>
+                                        <option value="pumps">Bombas</option>
+                                        <option value="motors">Motores</option>
+                                    </select>
+                                </div>
+                                
+                                <div id="ai-results" class="ai-results-container"></div>
+                            </div>
+                        </div>
+
+                        <div id="orbit-analysis-tab" class="tab-content">
+                            <h4>🔄 Análise de Órbita</h4>
+                            
+                            <div class="orbit-analysis-container">
+                                <div class="orbit-controls">
+                                    <button id="init-orbit-btn" class="action-btn">🎯 Inicializar Análise de Órbita</button>
+                                </div>
+                                <div id="orbit-container" class="orbit-display">
+                                    <p>Inicialize a análise de órbita para visualizar o movimento do eixo em tempo real.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="dashboard-tab" class="tab-content">
+                            <h4>📊 Dashboard Executivo</h4>
+                            
+                            <div class="dashboard-controls">
+                                <button id="init-dashboard-btn" class="action-btn">🚀 Inicializar Dashboard</button>
+                                <button id="fullscreen-dashboard-btn" class="secondary-btn">🖥️ Tela Cheia</button>
+                            </div>
+                            
+                            <div id="executive-dashboard-container">
+                                <p>Clique em "Inicializar Dashboard" para ver o painel executivo completo.</p>
+                            </div>
+                        </div>
+
+                        <div id="reports-tab" class="tab-content">
+                            <h4>📄 Relatórios Profissionais</h4>
+                            
+                            <div class="reports-controls">
+                                <h5>Gerar Relatórios</h5>
+                                <div class="report-types">
+                                    <button id="generate-executive-report" class="action-btn">👔 Relatório Executivo</button>
+                                    <button id="generate-technical-report" class="action-btn">🔧 Relatório Técnico</button>
+                                    <button id="generate-maintenance-report" class="action-btn">🛠️ Plano de Manutenção</button>
+                                    <button id="generate-iso-report" class="action-btn">📋 Relatório ISO 10816</button>
+                                </div>
+                                
+                                <div class="report-options">
+                                    <h5>Opções de Formatação</h5>
+                                    <select id="report-format">
+                                        <option value="html">HTML (Visualização Web)</option>
+                                        <option value="pdf">PDF (Para Impressão)</option>
+                                        <option value="excel">Excel (Dados Tabulares)</option>
+                                    </select>
+                                    
+                                    <label>
+                                        <input type="checkbox" id="include-charts" checked>
+                                        Incluir gráficos e visualizações
+                                    </label>
+                                    
+                                    <label>
+                                        <input type="checkbox" id="include-recommendations" checked>
+                                        Incluir recomendações de manutenção
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div id="report-preview" class="report-preview-container">
+                                <p>Selecione um tipo de relatório para visualizar a prévia.</p>
+                            </div>
+                        </div>
+
+                        <div id="waterfall-analysis" class="tab-content">
+                            <h4>🌊 Análise Waterfall/Cascata</h4>
+                            <div id="waterfall-container">
+                                <p>Inicialize a análise waterfall para visualizar a evolução espectral no tempo.</p>
+                            </div>
+                        </div>
+
+                        <div id="envelope-analysis" class="tab-content">
+                            <h4>📊 Análise de Envelope</h4>
+                            <div class="envelope-controls">
+                                <button id="calculate-envelope-btn" class="action-btn">🔍 Calcular Envelope</button>
+                                <button id="detect-modulation-btn" class="action-btn">📡 Detectar Modulações</button>
+                                <select id="envelope-filter">
+                                    <option value="low">Filtro Passa-Baixas (1-10 Hz)</option>
+                                    <option value="medium" selected>Filtro Médio (10-100 Hz)</option>
+                                    <option value="high">Filtro Passa-Altas (>100 Hz)</option>
+                                </select>
+                            </div>
+                            <div id="envelope-results" class="envelope-results-container">
+                                <p>Execute uma análise FFT e clique em "Calcular Envelope" para detectar modulações.</p>
+                            </div>
+                        </div>
+
+                        <div id="alerts-management" class="tab-content">
+                            <h4>🚨 Sistema de Alertas</h4>
+                            <div class="alerts-controls">
+                                <div class="alert-thresholds">
+                                    <h5>Limites de Alerta</h5>
+                                    <div class="threshold-grid">
+                                        <div class="threshold-item">
+                                            <label>Vibração Máxima (m/s²):</label>
+                                            <input type="number" id="vibration-threshold" value="5.0" step="0.1">
+                                        </div>
+                                        <div class="threshold-item">
+                                            <label>Desbalanceamento (mm/s):</label>
+                                            <input type="number" id="unbalance-threshold" value="3.0" step="0.1">
+                                        </div>
+                                        <div class="threshold-item">
+                                            <label>Temperatura (°C):</label>
+                                            <input type="number" id="temperature-threshold" value="80" step="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert-settings">
+                                    <h5>Configurações</h5>
+                                    <label>
+                                        <input type="checkbox" id="enable-sound-alerts" checked>
+                                        Habilitar alertas sonoros
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" id="enable-notifications" checked>
+                                        Habilitar notificações do navegador
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" id="enable-email-alerts">
+                                        Habilitar alertas por email (futuro)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div id="alerts-history" class="alerts-history-container">
+                                <h5>Histórico de Alertas</h5>
+                                <div id="alerts-list"></div>
+                            </div>
+                        </div>
+
+                        <div id="advanced-statistics" class="tab-content">
+                            <h4>📈 Estatísticas Avançadas</h4>
+                            <div class="statistics-controls">
+                                <button id="calculate-advanced-stats-btn" class="action-btn">🧮 Calcular Estatísticas</button>
+                                <button id="export-statistics-btn" class="secondary-btn">📊 Exportar Estatísticas</button>
+                            </div>
+                            
+                            <div id="statistics-results" class="statistics-container">
+                                <div class="stats-grid">
+                                    <div class="stats-category">
+                                        <h5>📊 Estatísticas Temporais</h5>
+                                        <div id="temporal-stats"></div>
+                                    </div>
+                                    <div class="stats-category">
+                                        <h5>🌊 Estatísticas Espectrais</h5>
+                                        <div id="spectral-stats"></div>
+                                    </div>
+                                    <div class="stats-category">
+                                        <h5>🔬 Métricas Avançadas</h5>
+                                        <div id="advanced-metrics"></div>
+                                    </div>
+                                    <div class="stats-category">
+                                        <h5>🩺 Indicadores Diagnósticos</h5>
+                                        <div id="diagnostic-indicators"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="backup-management" class="tab-content">
+                            <h4>💾 Sistema de Backup</h4>
+                            <div class="backup-controls">
+                                <div class="backup-actions">
+                                    <button id="create-backup-btn" class="action-btn">💾 Criar Backup</button>
+                                    <button id="auto-backup-toggle" class="secondary-btn">🔄 Auto-Backup OFF</button>
+                                    <button id="export-backups-btn" class="secondary-btn">📤 Exportar Todos</button>
+                                    <button id="import-backups-btn" class="secondary-btn">📥 Importar</button>
+                                </div>
+                                
+                                <div class="backup-settings">
+                                    <label>
+                                        Frequência Auto-Backup:
+                                        <select id="backup-frequency">
+                                            <option value="300000">5 minutos</option>
+                                            <option value="600000">10 minutos</option>
+                                            <option value="1800000">30 minutos</option>
+                                            <option value="3600000">1 hora</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div id="backup-list" class="backup-list-container">
+                                <h5>Backups Disponíveis</h5>
+                                <div id="backup-items"></div>
                             </div>
                         </div>
                     </div>
@@ -232,8 +624,20 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="diagnostic-database.js"></script>
+    <script src="database.js"></script>
+    <script src="advanced-calculator.js"></script>
+    <script src="tests.js"></script>
+    <script src="accelerometer.js"></script>
+    <script src="spectral-3d.js"></script>
+    <script src="ai-diagnostic.js"></script>
+    <script src="professional-reports.js"></script>
+    <script src="orbit-analysis.js"></script>
+    <script src="dashboard.js"></script>
     <script src="script.js"></script>
+    <script src="interface-enhancements.js"></script>
 </body>
 </html>
 
