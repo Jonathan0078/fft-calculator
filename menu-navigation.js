@@ -38,3 +38,51 @@ document.addEventListener('DOMContentLoaded', function() {
             'capture': ['.sensor-controls', '.input-column'],
             'analysis': ['.output-column', '#fft-output'],
             'diagnostic': ['#interpretation-section', '#alerts-section'],
+            '3d-view': ['#spectral-3d-section'],
+            'reports': ['#reports-tab'],
+            'database': ['#database-tools'],
+            'settings': ['#settings-section']
+        };
+
+        // Move o conteúdo para as seções apropriadas
+        Object.entries(sections).forEach(([sectionId, selectors]) => {
+            const targetSection = document.getElementById(`${sectionId}-section`);
+            if (targetSection) {
+                selectors.forEach(selector => {
+                    const content = document.querySelector(selector);
+                    if (content) {
+                        // Move o conteúdo original para a seção
+                        targetSection.appendChild(content);
+                    }
+                });
+            }
+        });
+    }
+
+    // Adiciona evento de clique para abrir cada seção em uma NOVA aba
+    menuItems.forEach(item => {
+        item.addEventListener('click', function(event) {
+            event.preventDefault(); // Previne qualquer comportamento padrão de navegação
+            const sectionId = this.getAttribute('data-section');
+            if (sectionId) {
+                // Abre uma nova aba com a seção específica
+                const currentUrl = window.location.origin + window.location.pathname;
+                const newTabUrl = `${currentUrl}#${encodeURIComponent(sectionId)}`;
+                window.open(newTabUrl, '_blank');
+            }
+        });
+    });
+
+    // Ouve por mudanças no hash (botões de voltar/avançar) e carrega a seção correta
+    window.addEventListener('hashchange', () => {
+        const hash = location.hash ? decodeURIComponent(location.hash.replace('#', '')) : 'capture';
+        window.showSection(hash);
+    });
+
+    // Inicializa as seções movendo o conteúdo
+    initializeSections();
+
+    // Mostra a seção correta ao carregar a página (baseado no hash ou padrão)
+    const initialHash = location.hash ? decodeURIComponent(location.hash.replace('#', '')) : 'capture';
+    window.showSection(initialHash);
+});
