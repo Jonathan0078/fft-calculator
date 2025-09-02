@@ -42,10 +42,10 @@ class WaterfallAnalysis {
         container.innerHTML = `
             <div class="waterfall-container">
                 <div class="waterfall-controls">
-                    <button id="start-waterfall">🌊 Iniciar Waterfall</button>
-                    <button id="stop-waterfall" disabled>⏹️ Parar</button>
-                    <button id="clear-waterfall">🗑️ Limpar</button>
-                    <button id="export-waterfall">💾 Exportar</button>
+                    <button id="start-waterfall"><i class="fas fa-wave-square"></i> Iniciar Waterfall</button>
+                    <button id="stop-waterfall" disabled><i class="fas fa-stop"></i> Parar</button>
+                    <button id="clear-waterfall"><i class="fas fa-trash"></i> Limpar</button>
+                    <button id="export-waterfall"><i class="fas fa-save"></i> Exportar</button>
                     <label>
                         Velocidade: <input type="range" id="waterfall-speed" min="100" max="2000" value="500">
                         <span id="speed-value">500ms</span>
@@ -402,7 +402,7 @@ class RealTimeAlerts {
         alertDiv.className = `visual-alert alert-${alert.type.toLowerCase()}`;
         alertDiv.innerHTML = `
             <div class="alert-header">
-                <span class="alert-icon">${alert.type === 'CRITICAL' ? '🚨' : '⚠️'}</span>
+                <span class="alert-icon">${alert.type === 'CRITICAL' ? '<i class="fas fa-exclamation-triangle"></i>' : '<i class="fas fa-exclamation-circle"></i>'}</span>
                 <span class="alert-title">${alert.type}</span>
                 <button class="alert-close" onclick="this.parentElement.parentElement.remove()">×</button>
             </div>

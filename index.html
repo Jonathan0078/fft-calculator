@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FFT Calculator</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -104,7 +106,7 @@
 
                     <!-- Controles do Acelerômetro -->
                     <div class="sensor-controls">
-                        <h3>📱 Sensor de Vibração (Acelerômetro)</h3>
+                        <h3><i class="fas fa-mobile-alt"></i> Sensor de Vibração (Acelerômetro)</h3>
                         <div class="sensor-status">
                             <div id="sensor-indicator" class="sensor-indicator"></div>
                             <span id="sensor-status-text">Sensor Desconectado</span>
@@ -133,16 +135,16 @@
                         </div>
                         
                         <div class="button-group">
-                            <button id="start-sensor-btn" type="button" class="action-btn">🎯 Iniciar Captura</button>
+                            <button id="start-sensor-btn" type="button" class="action-btn"><i class="fas fa-play"></i> Iniciar Captura</button>
                             <button id="stop-sensor-btn" type="button" class="secondary-btn" disabled>⏹️ Parar Captura</button>
                         </div>
                     </div>
 
                     <div class="button-group">
-                        <button id="calculate-btn" type="button">🚀 Calcular FFT e Diagnosticar</button>
-                        <button id="save-baseline-btn" type="button" class="secondary-btn">💾 Salvar como Baseline</button>
-                        <button id="compare-baseline-btn" type="button" class="secondary-btn">📊 Comparar com Baseline</button>
-                        <button id="export-results-btn" type="button" class="secondary-btn">📤 Exportar Resultados</button>
+                        <button id="calculate-btn" type="button"><i class="fas fa-calculator"></i> Calcular FFT e Diagnosticar</button>
+                        <button id="save-baseline-btn" type="button" class="secondary-btn"><i class="fas fa-save"></i> Salvar como Baseline</button>
+                        <button id="compare-baseline-btn" type="button" class="secondary-btn"><i class="fas fa-chart-line"></i> Comparar com Baseline</button>
+                        <button id="export-results-btn" type="button" class="secondary-btn"><i class="fas fa-file-export"></i> Exportar Resultados</button>
                     </div>
                 </div>
             </div>
@@ -166,9 +168,9 @@
                     </div>
 
                     <div class="spectral-3d-section">
-                        <h3>📊 Visualizações Espectrais 3D</h3>
+                        <h3><i class="fas fa-cube"></i> Visualizações Espectrais 3D</h3>
                         <div class="spectral-3d-controls">
-                            <button id="init-3d-btn" type="button" class="action-btn">🚀 Inicializar Visualização 3D</button>
+                            <button id="init-3d-btn" type="button" class="action-btn"><i class="fas fa-cube"></i> Inicializar Visualização 3D</button>
                             <div class="mode-controls">
                                 <label>Modo de Visualização:</label>
                                 <select id="spectral-3d-mode">
@@ -177,18 +179,18 @@
                                     <option value="bars">Barras 3D</option>
                                     <option value="orbit">Análise de Órbita</option>
                                 </select>
-                                <button id="screenshot-3d-btn" type="button" class="chart-btn">📷 Capturar</button>
+                                <button id="screenshot-3d-btn" type="button" class="chart-btn"><i class="fas fa-camera"></i> Capturar</button>
                             </div>
                         </div>
                         <div id="spectral-3d-container" class="spectral-3d-viewport"></div>
                         <div class="spectral-3d-info">
-                            <p><strong>🎮 Controles:</strong> Mouse para rotacionar, scroll para zoom, drag para mover</p>
-                            <p><strong>📈 Eixos:</strong> X=Frequência, Y=Magnitude, Z=Tempo</p>
+                            <p><strong><i class="fas fa-mouse"></i> Controles:</strong> Mouse para rotacionar, scroll para zoom, drag para mover</p>
+                            <p><strong><i class="fas fa-chart-line"></i> Eixos:</strong> X=Frequência, Y=Magnitude, Z=Tempo</p>
                         </div>
                     </div>
 
                     <div id="interpretation-section">
-                        <h3>🔍 Diagnóstico Inteligente de Vibrações</h3>
+                        <h3><i class="fas fa-search"></i> Diagnóstico Inteligente de Vibrações</h3>
                         <div id="interpretation-output"></div>
                     </div>
 
@@ -285,14 +287,14 @@
                             <h4>Relatório de Diagnóstico</h4>
                             <div id="report-preview"></div>
                             <div class="report-buttons">
-                                <button id="download-report-btn" type="button" class="action-btn">📄 Baixar Relatório PDF</button>
-                                <button id="export-data-btn" type="button" class="action-btn">📊 Exportar Dados CSV</button>
-                                <button id="export-database-btn" type="button" class="action-btn">💾 Exportar Base de Dados</button>
+                                <button id="download-report-btn" type="button" class="action-btn"><i class="fas fa-file-pdf"></i> Baixar Relatório PDF</button>
+                                <button id="export-data-btn" type="button" class="action-btn"><i class="fas fa-file-csv"></i> Exportar Dados CSV</button>
+                                <button id="export-database-btn" type="button" class="action-btn"><i class="fas fa-database"></i> Exportar Base de Dados</button>
                             </div>
                         </div>
 
                         <div id="calculator-tools" class="tab-content">
-                            <h4>🧮 Calculadoras Especializadas</h4>
+                            <h4><i class="fas fa-calculator"></i> Calculadoras Especializadas</h4>
                             
                             <div class="calculator-grid">
                                 <div class="calc-card">
@@ -361,7 +363,7 @@
                         </div>
 
                         <div id="database-tools" class="tab-content">
-                            <h4>💾 Histórico e Base de Dados</h4>
+                            <h4><i class="fas fa-database"></i> Histórico e Base de Dados</h4>
                             
                             <div class="database-controls">
                                 <div class="equipment-section">
@@ -388,12 +390,12 @@
                         </div>
 
                         <div id="test-tools" class="tab-content">
-                            <h4>🧪 Sistema de Testes</h4>
+                            <h4><i class="fas fa-vial"></i> Sistema de Testes</h4>
                             
                             <div class="test-controls">
-                                <button id="run-tests-btn" class="action-btn">🧪 Executar Todos os Testes</button>
+                                <button id="run-tests-btn" class="action-btn"><i class="fas fa-vial"></i> Executar Todos os Testes</button>
                                 <button id="run-performance-test-btn" class="action-btn">⚡ Teste de Performance</button>
-                                <button id="run-accuracy-test-btn" class="action-btn">🎯 Teste de Precisão</button>
+                                <button id="run-accuracy-test-btn" class="action-btn"><i class="fas fa-bullseye"></i> Teste de Precisão</button>
                             </div>
                             
                             <div id="test-results" class="test-results-container">
@@ -402,7 +404,7 @@
                         </div>
 
                         <div id="ai-diagnostic-tab" class="tab-content">
-                            <h4>🤖 Diagnóstico com Inteligência Artificial</h4>
+                            <h4><i class="fas fa-robot"></i> Diagnóstico com Inteligência Artificial</h4>
                             
                             <div class="ai-diagnostic-container">
                                 <div class="ai-diagnostic-header">

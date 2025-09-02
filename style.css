@@ -1,26 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&family=Roboto+Mono:wght@500;700&display=swap');
 
 :root {
-    --cor-primaria: #00ffff;
-    --cor-secundaria: #0080ff;
-    --cor-destaque: #ff0080;
-    --cor-sucesso: #00ff40;
-    --cor-erro: #ff4040;
-    --cor-fundo: #0a0a0f;
-    --cor-fundo-card: #1a1a2e;
-    --cor-fundo-card-hover: #16213e;
-    --cor-texto: #e0e0ff;
-    --cor-texto-claro: #ffffff;
-    --cor-texto-suave: #8080b0;
-    --cor-borda: #303060;
-    --cor-borda-foco: #00ffff;
-    --sombra-cor: rgba(0, 255, 255, 0.3);
-    --sombra-neon: 0 0 20px rgba(0, 255, 255, 0.5);
-    --raio-borda: 12px;
-    --fonte-principal: 'Rajdhani', sans-serif;
-    --fonte-titulo: 'Orbitron', monospace;
-    --velocidade-transicao: 0.3s;
-    --glow-animation: glow 2s ease-in-out infinite alternate;
+    --cor-primaria: #4A90E2;
+    --cor-secundaria: #2C5282;
+    --cor-destaque: #3182CE;
+    --cor-sucesso: #48BB78;
+    --cor-erro: #E53E3E;
+    --cor-fundo: #1A202C;
+    --cor-fundo-card: #2D3748;
+    --cor-fundo-card-hover: #4A5568;
+    --cor-texto: #E2E8F0;
+    --cor-texto-claro: #F7FAFC;
+    --cor-texto-suave: #A0AEC0;
+    --cor-borda: #4A5568;
+    --cor-borda-foco: #4A90E2;
+    --sombra-cor: rgba(74, 144, 226, 0.2);
+    --sombra-box: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --raio-borda: 8px;
+    --fonte-principal: 'Source Sans Pro', sans-serif;
+    --fonte-titulo: 'Roboto Mono', monospace;
+    --velocidade-transicao: 0.2s;
 }
 
 @keyframes glow {
@@ -58,11 +57,7 @@ html, body {
 
 body {
     font-family: var(--fonte-principal);
-    background: 
-        linear-gradient(45deg, transparent 49%, rgba(0, 255, 255, 0.03) 50%, transparent 51%),
-        linear-gradient(-45deg, transparent 49%, rgba(255, 0, 128, 0.03) 50%, transparent 51%),
-        radial-gradient(ellipse at center, #0f0f23 0%, #0a0a0f 100%);
-    background-size: 20px 20px, 20px 20px, 100% 100%;
+    background: linear-gradient(to bottom, var(--cor-fundo) 0%, #141921 100%);
     color: var(--cor-texto);
     line-height: 1.6;
     min-height: 100vh;
@@ -79,54 +74,23 @@ body::before {
     width: 100%;
     height: 100%;
     background: 
-        linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent),
-        linear-gradient(0deg, transparent, rgba(255, 0, 128, 0.1), transparent);
-    background-size: 50px 100%, 100% 50px;
-    animation: scan 4s linear infinite;
+        linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.03), transparent);
     pointer-events: none;
     z-index: -1;
 }
 
 .container {
-    background: 
-        linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(16, 33, 62, 0.9) 100%);
-    backdrop-filter: blur(10px);
+    background: var(--cor-fundo-card);
+    backdrop-filter: blur(5px);
     padding: 2rem;
     border-radius: var(--raio-borda);
-    border: 2px solid var(--cor-borda);
-    box-shadow: 
-        var(--sombra-neon),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 4px 32px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--cor-borda);
+    box-shadow: var(--sombra-box);
     width: 95%;
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
     overflow: hidden;
-}
-
-.container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-    animation: dataFlow 3s linear infinite;
-    pointer-events: none;
-}
-
-.container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px);
-    pointer-events: none;
 }
 
 @media (max-width: 768px) {
@@ -160,15 +124,11 @@ body::before {
 }
 
 .input-column, .output-column {
-    background: 
-        linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.8) 100%);
-    backdrop-filter: blur(15px);
+    background: var(--cor-fundo-card);
     padding: 1.5rem;
     border-radius: var(--raio-borda);
     border: 1px solid var(--cor-borda);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: var(--sombra-box);
     position: relative;
     overflow: hidden;
 }
@@ -180,24 +140,20 @@ body::before {
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--cor-primaria), transparent);
-    animation: var(--glow-animation);
+    background: var(--cor-primaria);
 }
 
 h1 {
     font-family: var(--fonte-titulo);
-    font-weight: 900;
+    font-weight: 700;
     color: var(--cor-texto-claro);
     text-align: center;
     margin-bottom: 2rem;
     font-size: 2.5rem;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    text-shadow: 
-        0 0 10px var(--cor-primaria),
-        0 0 20px var(--cor-primaria),
-        0 0 30px var(--cor-primaria);
-    animation: var(--glow-animation);
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--cor-primaria);
+    padding-bottom: 0.5rem;
 }
 
 h2 {

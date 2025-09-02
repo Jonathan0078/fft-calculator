@@ -48,7 +48,7 @@ class FFTTestSuite {
         const passed = this.results.filter(r => r.status === 'PASSED').length;
         const failed = this.results.filter(r => r.status === 'FAILED').length;
         
-        console.log(`\n📊 Resultado dos Testes: ${passed} passou, ${failed} falhou`);
+        console.log(`\nResultado dos Testes: ${passed} passou, ${failed} falhou`);
         
         // Exibe resultados na interface se elemento existir
         const testResultsDiv = document.getElementById('test-results');
@@ -63,7 +63,7 @@ class FFTTestSuite {
         
         let html = `
             <div class="test-summary">
-                <h4>📊 Relatório de Testes</h4>
+                <h4><i class="fas fa-chart-bar"></i> Relatório de Testes</h4>
                 <p><strong>Total:</strong> ${this.results.length} | 
                    <span class="test-passed">Passou: ${passed}</span> | 
                    <span class="test-failed">Falhou: ${failed}</span></p>
@@ -73,7 +73,7 @@ class FFTTestSuite {
         
         this.results.forEach(result => {
             const statusClass = result.status === 'PASSED' ? 'test-passed' : 'test-failed';
-            const icon = result.status === 'PASSED' ? '✅' : '❌';
+            const icon = result.status === 'PASSED' ? '<i class="fas fa-check success-icon"></i>' : '<i class="fas fa-times warning-icon"></i>';
             
             html += `
                 <div class="test-item ${statusClass}">
